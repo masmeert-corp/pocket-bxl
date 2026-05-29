@@ -1,4 +1,4 @@
-import { NodeRuntime } from "@effect/platform-node";
+import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import { migrateDatabase } from "@pocket-bxl/db/migrate";
 import { Effect, Layer, Redacted } from "effect";
 

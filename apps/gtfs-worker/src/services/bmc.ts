@@ -1,5 +1,5 @@
 import { HttpClient, HttpClientRequest } from "@effect/platform";
-import { NodeHttpClient } from "@effect/platform-node";
+import * as NodeHttpClient from "@effect/platform-node/NodeHttpClient";
 import { Effect, Redacted } from "effect";
 
 import { AppConfig } from "#/services/env";
