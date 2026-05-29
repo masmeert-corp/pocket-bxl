@@ -23,6 +23,7 @@
       "name": "gtfs-worker",
       "version": "0.0.0",
       "dependencies": {
+        "@effect/experimental": "^0.60.0",
         "@effect/platform": "^0.96.1",
         "@effect/platform-node": "^0.106.0",
         "@effect/sql": "^0.51.1",
