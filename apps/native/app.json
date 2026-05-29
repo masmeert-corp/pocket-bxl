@@ -12,6 +12,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "android": {
+      "package": "com.masmeert.pocketbxl"
+    },
+    "ios": {
+      "bundleIdentifier": "com.masmeert.pocketbxl"
     }
   }
 }

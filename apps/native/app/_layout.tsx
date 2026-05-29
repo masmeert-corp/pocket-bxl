@@ -11,7 +11,7 @@ import { queryClient } from "@/utils/trpc";
 function StackLayout() {
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ title: "Pocket BXL" }} />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
     </Stack>
   );
 }
