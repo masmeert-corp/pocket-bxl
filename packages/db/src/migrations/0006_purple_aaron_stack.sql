@@ -1,0 +1,1 @@
+CREATE INDEX "gtfs_trips_pattern_shape_id_idx" ON "gtfs"."trips" USING btree ("pattern_id","shape_id") WHERE "gtfs"."trips"."shape_id" IS NOT NULL;

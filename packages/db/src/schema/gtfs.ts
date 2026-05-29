@@ -159,6 +159,9 @@ export const makeGtfsSchema = (schemaName: string) => {
       index(`${schemaName}_trips_service_id_idx`).on(t.service_id),
       index(`${schemaName}_trips_shape_id_idx`).on(t.shape_id),
       index(`${schemaName}_trips_pattern_id_idx`).on(t.pattern_id),
+      index(`${schemaName}_trips_pattern_shape_id_idx`)
+        .on(t.pattern_id, t.shape_id)
+        .where(sql`${t.shape_id} IS NOT NULL`),
     ],
   );
 
