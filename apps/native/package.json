@@ -4,8 +4,8 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start",
-    "dev": "expo start --clear",
+    "start": "expo start --dev-client",
+    "dev": "expo start --dev-client --clear",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "prebuild": "expo prebuild",
@@ -28,6 +28,7 @@
     "dotenv": "catalog:",
     "expo": "~56.0.3",
     "expo-constants": "~56.0.14",
+    "expo-dev-client": "~56.0.18",
     "expo-font": "~56.0.5",
     "expo-haptics": "~56.0.3",
     "expo-linking": "~56.0.11",

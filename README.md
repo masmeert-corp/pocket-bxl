@@ -44,7 +44,7 @@ Then, run the development server:
 bun run dev
 ```
 
-Use the Expo Go app to run the mobile application.
+Use a development build to run the mobile application; Expo Go is not supported.
 The API is running at [http://localhost:3000](http://localhost:3000).
 
 ## Git Hooks and Formatting
