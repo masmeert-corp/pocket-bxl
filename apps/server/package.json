@@ -16,6 +16,7 @@
     "@pocket-bxl/auth": "workspace:*",
     "@pocket-bxl/db": "workspace:*",
     "@pocket-bxl/env": "workspace:*",
+    "@scalar/hono-api-reference": "^0.10.18",
     "@trpc/server": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
