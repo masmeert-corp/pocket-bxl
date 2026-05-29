@@ -46,6 +46,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.masmeert.pocketbxl",
+      "deploymentTarget": "18.0",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
