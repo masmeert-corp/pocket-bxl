@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "scheme": "pocket-bxl",
+    "userInterfaceStyle": "automatic",
+    "orientation": "default",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "pocket-bxl",
+    "slug": "pocket-bxl",
+    "plugins": ["expo-font"],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

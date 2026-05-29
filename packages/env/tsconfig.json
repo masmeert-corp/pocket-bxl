@@ -1,0 +1,3 @@
+{
+  "extends": "@pocket-bxl/config/tsconfig.base.json"
+}

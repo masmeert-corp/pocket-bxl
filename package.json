@@ -1,0 +1,48 @@
+{
+  "name": "pocket-bxl",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "dotenv": "^17.2.2",
+      "zod": "^4.1.13",
+      "typescript": "^6",
+      "hono": "^4.8.2",
+      "@trpc/server": "^11.16.0",
+      "better-auth": "1.6.11",
+      "@trpc/client": "^11.16.0",
+      "@better-auth/expo": "1.6.11"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:native": "turbo -F native dev",
+    "dev:server": "turbo -F server dev",
+    "db:push": "turbo -F @pocket-bxl/db db:push",
+    "db:studio": "turbo -F @pocket-bxl/db db:studio",
+    "db:generate": "turbo -F @pocket-bxl/db db:generate",
+    "db:migrate": "turbo -F @pocket-bxl/db db:migrate",
+    "check": "oxlint && oxfmt --write"
+  },
+  "dependencies": {
+    "@pocket-bxl/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@pocket-bxl/config": "workspace:*",
+    "@types/node": "^22.13.14",
+    "lefthook": "^2.0.13",
+    "oxfmt": "^0.46.0",
+    "oxlint": "^1.61.0",
+    "turbo": "^2.8.12",
+    "typescript": "catalog:"
+  },
+  "packageManager": "bun@1.3.5"
+}
