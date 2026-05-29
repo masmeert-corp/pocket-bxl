@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   boolean,
+  check,
   date,
   doublePrecision,
   geometry,
@@ -12,6 +13,56 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
+
+export const routeTypeValues = [
+  "tram",
+  "subway",
+  "rail",
+  "bus",
+  "ferry",
+  "cable_tram",
+  "aerial_lift",
+  "funicular",
+  "trolleybus",
+  "monorail",
+] as const;
+
+export type RouteType = (typeof routeTypeValues)[number];
+
+export const routeTypeByGtfsCode: Readonly<Record<number, RouteType>> = {
+  0: "tram",
+  1: "subway",
+  2: "rail",
+  3: "bus",
+  4: "ferry",
+  5: "cable_tram",
+  6: "aerial_lift",
+  7: "funicular",
+  11: "trolleybus",
+  12: "monorail",
+};
+
+export const gtfsCodeByRouteType: Readonly<Record<RouteType, number>> = {
+  tram: 0,
+  subway: 1,
+  rail: 2,
+  bus: 3,
+  ferry: 4,
+  cable_tram: 5,
+  aerial_lift: 6,
+  funicular: 7,
+  trolleybus: 11,
+  monorail: 12,
+};
+
+export const routeTypeFromGtfsCode = (code: number): RouteType => {
+  const routeType = routeTypeByGtfsCode[Math.trunc(code)];
+  if (!routeType) throw new RangeError(`Unsupported GTFS route_type: ${code}`);
+  return routeType;
+};
+
+const routeTypeCheckSql = () =>
+  sql.raw(`"route_type" IN (${routeTypeValues.map((value) => `'${value}'`).join(", ")})`);
 
 export const makeGtfsSchema = (schemaName: string) => {
   const s = pgSchema(schemaName);
@@ -108,13 +159,16 @@ export const makeGtfsSchema = (schemaName: string) => {
       agency_id: text(),
       route_short_name: text().notNull(),
       route_long_name: text().notNull(),
-      route_type: integer().notNull(),
+      route_type: text().$type<RouteType>().notNull(),
       route_desc: text(),
       route_url: text(),
       route_color: text().notNull().default("#FFFFFF"),
       route_text_color: text().notNull().default("#000000"),
     },
-    (t) => [index(`${schemaName}_routes_agency_id_idx`).on(t.agency_id)],
+    (t) => [
+      index(`${schemaName}_routes_agency_id_idx`).on(t.agency_id),
+      check(`${schemaName}_routes_route_type_check`, routeTypeCheckSql()),
+    ],
   );
 
   const stopPatterns = s.table(
@@ -217,13 +271,14 @@ export const makeGtfsSchema = (schemaName: string) => {
       departure_at: timestamp({ withTimezone: true, mode: "date" }).notNull(),
       route_short_name: text().notNull(),
       route_long_name: text().notNull(),
-      route_type: integer().notNull(),
+      route_type: text().$type<RouteType>().notNull(),
       route_color: text().notNull(),
       route_text_color: text().notNull(),
     },
     (t) => [
       primaryKey({ columns: [t.service_date, t.trip_id, t.stop_sequence] }),
       index(`${schemaName}_departures_stop_departure_idx`).on(t.stop_id, t.departure_at),
+      check(`${schemaName}_departures_route_type_check`, routeTypeCheckSql()),
     ],
   );
 

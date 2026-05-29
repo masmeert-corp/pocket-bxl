@@ -1,4 +1,4 @@
-import { departures, stops } from "@pocket-bxl/db/schema";
+import { departures, routeTypeValues, stops } from "@pocket-bxl/db/schema";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -18,6 +18,7 @@ export const nearbyStopSchema = stopSchema.extend({
 export const departureSchema = createSelectSchema(departures, {
   arrival_at: dateTimeSchema,
   departure_at: dateTimeSchema,
+  route_type: z.enum(routeTypeValues),
 });
 
 export const getNearbyStopsInputSchema = z.object({

@@ -1,5 +1,7 @@
 import { Option, Schema } from "effect";
 
+import { gtfsCodeByRouteType, routeTypeFromGtfsCode, routeTypeValues } from "@pocket-bxl/db/schema";
+
 /** GTFS CSV cells are always present; empty string means absent. */
 export const GtfsOptionalString = Schema.transform(
   Schema.String,
@@ -34,6 +36,16 @@ export const GtfsTimepoint = Schema.transform(Schema.String, Schema.Number, {
   decode: (s) => (s === "" ? 1 : Number(s)),
   encode: (n) => String(Math.trunc(n)),
 });
+
+export const GtfsRouteType = Schema.transform(
+  Schema.NumberFromString,
+  Schema.Literal(...routeTypeValues),
+  {
+    strict: true,
+    decode: routeTypeFromGtfsCode,
+    encode: (routeType) => gtfsCodeByRouteType[routeType],
+  },
+);
 
 const HEX6 = /^[0-9A-Fa-f]{6}$/;
 
@@ -79,7 +91,7 @@ export const Route = Schema.Struct({
   route_id: Schema.String,
   route_short_name: Schema.String,
   route_long_name: Schema.String,
-  route_type: Schema.NumberFromString,
+  route_type: GtfsRouteType,
   agency_id: GtfsOptionalString,
   route_desc: GtfsOptionalString,
   route_url: GtfsOptionalString,
