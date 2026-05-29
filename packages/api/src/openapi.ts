@@ -7,6 +7,6 @@ export function createOpenApiDocument(baseUrl: string) {
     title: "pocket-bxl API",
     version: "0.1.0",
     baseUrl,
-    tags: ["Health", "Stops"],
+    tags: ["Health", "Routes", "Stops"],
   });
 }
