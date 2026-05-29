@@ -1,8 +1,20 @@
 import { publicProcedure, router } from "../index";
+import { healthCheckOutputSchema } from "../schemas/health";
 
 export const healthRouter = router({
-  check: publicProcedure.query(() => ({
-    status: "ok",
-    checkedAt: new Date().toISOString(),
-  })),
+  check: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/health",
+        operationId: "healthCheck",
+        summary: "Check API health",
+        tags: ["Health"],
+      },
+    })
+    .output(healthCheckOutputSchema)
+    .query(() => ({
+      status: "ok" as const,
+      checkedAt: new Date().toISOString(),
+    })),
 });

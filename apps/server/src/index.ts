@@ -1,7 +1,9 @@
 import { serve } from "@hono/node-server";
 import { trpcServer } from "@hono/trpc-server";
 import { createContext } from "@pocket-bxl/api/context";
+import { createOpenApiDocument } from "@pocket-bxl/api/openapi";
 import { appRouter } from "@pocket-bxl/api/routers/index";
+import { createOpenApiFetchHandler } from "trpc-to-openapi";
 import { Hono } from "hono";
 
 import { corsMiddleware } from "./middleware/cors";
@@ -19,6 +21,20 @@ app.get("/health", (c) => c.json({ status: "ok" }));
 
 // Routers
 app.route("/api/auth", authRouter);
+
+app.get("/api/openapi.json", (c) => {
+  const url = new URL(c.req.url);
+  return c.json(createOpenApiDocument(`${url.origin}/api`));
+});
+
+app.all("/api/*", (c) => {
+  return createOpenApiFetchHandler({
+    endpoint: "/api",
+    router: appRouter,
+    createContext: () => createContext({ context: c }),
+    req: c.req.raw,
+  });
+});
 
 // tRPC
 app.use(

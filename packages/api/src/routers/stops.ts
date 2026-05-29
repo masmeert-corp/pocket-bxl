@@ -5,9 +5,14 @@ import { and, asc, eq, gte, lte, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { publicProcedure, router } from "../index";
-
-const nonEmptyString = z.string().min(1);
-const isoDatetime = z.iso.datetime();
+import {
+  departureSchema,
+  getNearbyStopsInputSchema,
+  getStopByIdInputSchema,
+  getStopDeparturesInputSchema,
+  nearbyStopSchema,
+  stopSchema,
+} from "../schemas/stops";
 
 const serializeDeparture = (departure: typeof departures.$inferSelect) => ({
   ...departure,
@@ -17,13 +22,17 @@ const serializeDeparture = (departure: typeof departures.$inferSelect) => ({
 
 export const stopsRouter = router({
   getNearby: publicProcedure
-    .input(
-      z.object({
-        lat: z.number().min(-90).max(90),
-        lon: z.number().min(-180).max(180),
-        radius: z.number().positive(),
-      }),
-    )
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/stops/nearby",
+        operationId: "getNearbyStops",
+        summary: "Find nearby stops",
+        tags: ["Stops"],
+      },
+    })
+    .input(getNearbyStopsInputSchema)
+    .output(z.array(nearbyStopSchema))
     .query(async ({ input }) => {
       const point = sql`ST_SetSRID(ST_MakePoint(${input.lon}, ${input.lat}), 4326)`;
       const distanceMeters = sql<number>`ST_Distance(${stops.geom}::geography, ${point}::geography)`;
@@ -47,32 +56,45 @@ export const stopsRouter = router({
         .orderBy(distanceMeters);
     }),
 
-  getById: publicProcedure.input(z.object({ id: nonEmptyString })).query(async ({ input }) => {
-    const stop = await db.query.stops.findFirst({
-      where: eq(stops.stop_id, input.id),
-    });
+  getById: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/stops/{id}",
+        operationId: "getStopById",
+        summary: "Get a stop by id",
+        tags: ["Stops"],
+        errorResponses: {
+          404: "Stop not found",
+        },
+      },
+    })
+    .input(getStopByIdInputSchema)
+    .output(stopSchema.passthrough())
+    .query(async ({ input }) => {
+      const stop = await db.query.stops.findFirst({
+        where: eq(stops.stop_id, input.id),
+      });
 
-    if (!stop) {
-      throw new TRPCError({ code: "NOT_FOUND" });
-    }
+      if (!stop) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
 
-    return stop;
-  }),
+      return stop;
+    }),
 
   getDepartures: publicProcedure
-    .input(
-      z
-        .object({
-          id: nonEmptyString,
-          from: isoDatetime.optional(),
-          to: isoDatetime.optional(),
-          limit: z.number().int().positive().optional(),
-        })
-        .refine((input) => input.to || input.limit, {
-          message: "limit is required when to is omitted",
-          path: ["limit"],
-        }),
-    )
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/stops/{id}/departures",
+        operationId: "getStopDepartures",
+        summary: "Get departures for a stop",
+        tags: ["Stops"],
+      },
+    })
+    .input(getStopDeparturesInputSchema)
+    .output(z.array(departureSchema))
     .query(async ({ input }) => {
       const from = input.from ? new Date(input.from) : new Date();
       const filters = [eq(departures.stop_id, input.id), gte(departures.departure_at, from)];

@@ -18,7 +18,10 @@
     "@trpc/server": "catalog:",
     "dotenv": "catalog:",
     "drizzle-orm": "^0.45.1",
-    "zod": "catalog:"
+    "drizzle-zod": "^0.8.3",
+    "trpc-to-openapi": "^3.2.0",
+    "zod": "catalog:",
+    "zod-openapi": "^5.4.6"
   },
   "devDependencies": {
     "@pocket-bxl/config": "workspace:*",
