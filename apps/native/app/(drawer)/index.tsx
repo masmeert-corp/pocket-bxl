@@ -12,7 +12,7 @@ import { queryClient, trpc } from "@/utils/trpc";
 export default function Home() {
   const healthCheck = useQuery(trpc.health.check.queryOptions());
   const privateData = useQuery(trpc.privateData.queryOptions());
-  const isConnected = healthCheck?.data === "OK";
+  const isConnected = healthCheck?.data?.status === "ok";
   const isLoading = healthCheck?.isLoading;
   const { data: session } = authClient.useSession();
 
