@@ -88,8 +88,6 @@ export const patternsRouter = router({
     .input(getPatternByIdInputSchema)
     .output(patternShapeSchema)
     .query(async ({ input }) => {
-      await findPatternById(input.patternId);
-
       const [shapeRef] = await db
         .select({
           shape_id: trips.shape_id,
@@ -101,6 +99,8 @@ export const patternsRouter = router({
         .limit(1);
 
       if (!shapeRef?.shape_id) {
+        await findPatternById(input.patternId);
+
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Pattern shape not found",
