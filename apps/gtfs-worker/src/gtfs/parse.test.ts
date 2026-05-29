@@ -59,6 +59,26 @@ describe("decodeCsvTable / stops", () => {
 });
 
 describe("decodeCsvTable / routes", () => {
+  it("maps GTFS route_type codes to readable values", async () => {
+    const csv =
+      "route_id,route_short_name,route_long_name,route_type,route_color,route_text_color\n" +
+      "1,1,Line One,3,,\n";
+    const rows = await Effect.runPromise(decodeCsvTable("routes.txt", Route, csv));
+    assert.equal(rows[0]!.route_type, "bus");
+  });
+
+  it("maps extended GTFS route_type codes to readable values", async () => {
+    const csv =
+      "route_id,route_short_name,route_long_name,route_type,route_color,route_text_color\n" +
+      "1,1,Line One,700,,\n" +
+      "2,2,Line Two,200,,\n" +
+      "3,3,Line Three,1100,,\n";
+    const rows = await Effect.runPromise(decodeCsvTable("routes.txt", Route, csv));
+    assert.equal(rows[0]!.route_type, "bus");
+    assert.equal(rows[1]!.route_type, "coach");
+    assert.equal(rows[2]!.route_type, "air");
+  });
+
   it("applies GTFS color defaults when the cell is empty", async () => {
     const csv =
       "route_id,route_short_name,route_long_name,route_type,route_color,route_text_color\n" +

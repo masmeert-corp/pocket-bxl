@@ -8,9 +8,6 @@ import { DatabaseUrl } from "#/services/env";
 import { DrizzleService } from "#/services/drizzle";
 import { PostgresLive } from "#/services/db";
 
-// PostgresLive provides SqlClient.SqlClient (needed by materialization queries).
-// DrizzleService.Default bundles PostgresLive at runtime but doesn't re-export
-// its service tags, so we surface it explicitly here.
 const MainLayer = Layer.mergeAll(Bmc.Default, DrizzleService.Default, PostgresLive);
 
 const program = Effect.gen(function* () {

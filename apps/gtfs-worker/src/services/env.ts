@@ -2,8 +2,6 @@ import { env } from "@pocket-bxl/env/worker";
 import { Config, Redacted } from "effect";
 
 export const DatabaseUrl = Config.succeed(Redacted.make(env.DATABASE_URL));
-
-/** Days ahead of today to precompute departures for. */
 export const DepartureWindowDays = Config.succeed(env.DEPARTURE_WINDOW_DAYS);
 
 export const AppConfig = Config.succeed({
