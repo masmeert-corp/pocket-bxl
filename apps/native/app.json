@@ -8,19 +8,27 @@
     },
     "name": "pocket-bxl",
     "slug": "pocket-bxl",
+    "icon": "./assets/images/pocketbxl-icon.png",
     "plugins": [
       "expo-font",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/pocketnxl-tram.png",
           "imageWidth": 100,
           "imageHeight": 100,
           "backgroundColor": "#ffffff",
           "dark": {
-            "image": "./assets/images/splash-icon.png",
+            "image": "./assets/images/pocketnxl-tram.png",
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      [
+        "expo-maps",
+        {
+          "requestLocationPermission": true,
+          "locationPermission": "Allow $(PRODUCT_NAME) to use your location"
         }
       ]
     ],
@@ -29,10 +37,24 @@
       "reactCompiler": true
     },
     "android": {
-      "package": "com.masmeert.pocketbxl"
+      "package": "com.masmeert.pocketbxl",
+      "icon": "./assets/images/pocketbxl-icon.png",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "ios": {
-      "bundleIdentifier": "com.masmeert.pocketbxl"
+      "bundleIdentifier": "com.masmeert.pocketbxl",
+      "deploymentTarget": "18.0",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "618c640b-2561-48fc-9262-fd2a4b101fac"
+      }
     }
   }
 }
