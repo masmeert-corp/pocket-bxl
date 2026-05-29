@@ -19,12 +19,16 @@ export const routeTypeValues = [
   "subway",
   "rail",
   "bus",
+  "coach",
   "ferry",
   "cable_tram",
   "aerial_lift",
   "funicular",
   "trolleybus",
   "monorail",
+  "air",
+  "taxi",
+  "miscellaneous",
 ] as const;
 
 export type RouteType = (typeof routeTypeValues)[number];
@@ -47,18 +51,37 @@ export const gtfsCodeByRouteType: Readonly<Record<RouteType, number>> = {
   subway: 1,
   rail: 2,
   bus: 3,
+  coach: 200,
   ferry: 4,
   cable_tram: 5,
   aerial_lift: 6,
   funicular: 7,
   trolleybus: 11,
   monorail: 12,
+  air: 1100,
+  taxi: 1500,
+  miscellaneous: 1700,
 };
 
 export const routeTypeFromGtfsCode = (code: number): RouteType => {
   const routeType = routeTypeByGtfsCode[Math.trunc(code)];
-  if (!routeType) throw new RangeError(`Unsupported GTFS route_type: ${code}`);
-  return routeType;
+  if (routeType) return routeType;
+
+  if (code >= 100 && code <= 117) return "rail";
+  if (code >= 200 && code <= 209) return "coach";
+  if (code >= 400 && code <= 404) return "subway";
+  if (code === 405) return "monorail";
+  if (code >= 700 && code <= 716) return "bus";
+  if (code === 800) return "trolleybus";
+  if (code >= 900 && code <= 906) return "tram";
+  if (code === 1000 || code === 1200) return "ferry";
+  if (code === 1100) return "air";
+  if (code >= 1300 && code <= 1307) return "aerial_lift";
+  if (code === 1400) return "funicular";
+  if (code >= 1500 && code <= 1507) return "taxi";
+  if (code === 1700 || code === 1702) return "miscellaneous";
+
+  throw new RangeError(`Unsupported GTFS route_type: ${code}`);
 };
 
 const routeTypeCheckSql = () =>

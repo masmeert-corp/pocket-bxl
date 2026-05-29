@@ -654,7 +654,7 @@
       "checkConstraints": {
         "gtfs_departures_route_type_check": {
           "name": "gtfs_departures_route_type_check",
-          "value": "\"route_type\" IN ('tram', 'subway', 'rail', 'bus', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail')"
+          "value": "\"route_type\" IN ('tram', 'subway', 'rail', 'bus', 'coach', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail', 'air', 'taxi', 'miscellaneous')"
         }
       },
       "isRLSEnabled": false
@@ -796,7 +796,7 @@
       "checkConstraints": {
         "gtfs_routes_route_type_check": {
           "name": "gtfs_routes_route_type_check",
-          "value": "\"route_type\" IN ('tram', 'subway', 'rail', 'bus', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail')"
+          "value": "\"route_type\" IN ('tram', 'subway', 'rail', 'bus', 'coach', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail', 'air', 'taxi', 'miscellaneous')"
         }
       },
       "isRLSEnabled": false

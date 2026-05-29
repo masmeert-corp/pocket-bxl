@@ -9,6 +9,23 @@ ALTER TABLE "gtfs"."departures" ALTER COLUMN "route_type" SET DATA TYPE text USI
 	WHEN 7 THEN 'funicular'
 	WHEN 11 THEN 'trolleybus'
 	WHEN 12 THEN 'monorail'
+	WHEN 405 THEN 'monorail'
+	WHEN 800 THEN 'trolleybus'
+	WHEN 1000 THEN 'ferry'
+	WHEN 1100 THEN 'air'
+	WHEN 1200 THEN 'ferry'
+	WHEN 1400 THEN 'funicular'
+	WHEN 1700 THEN 'miscellaneous'
+	WHEN 1702 THEN 'miscellaneous'
+	ELSE CASE
+		WHEN "route_type" BETWEEN 100 AND 117 THEN 'rail'
+		WHEN "route_type" BETWEEN 200 AND 209 THEN 'coach'
+		WHEN "route_type" BETWEEN 400 AND 404 THEN 'subway'
+		WHEN "route_type" BETWEEN 700 AND 716 THEN 'bus'
+		WHEN "route_type" BETWEEN 900 AND 906 THEN 'tram'
+		WHEN "route_type" BETWEEN 1300 AND 1307 THEN 'aerial_lift'
+		WHEN "route_type" BETWEEN 1500 AND 1507 THEN 'taxi'
+	END
 END;--> statement-breakpoint
 ALTER TABLE "gtfs"."routes" ALTER COLUMN "route_type" SET DATA TYPE text USING CASE "route_type"
 	WHEN 0 THEN 'tram'
@@ -21,6 +38,23 @@ ALTER TABLE "gtfs"."routes" ALTER COLUMN "route_type" SET DATA TYPE text USING C
 	WHEN 7 THEN 'funicular'
 	WHEN 11 THEN 'trolleybus'
 	WHEN 12 THEN 'monorail'
+	WHEN 405 THEN 'monorail'
+	WHEN 800 THEN 'trolleybus'
+	WHEN 1000 THEN 'ferry'
+	WHEN 1100 THEN 'air'
+	WHEN 1200 THEN 'ferry'
+	WHEN 1400 THEN 'funicular'
+	WHEN 1700 THEN 'miscellaneous'
+	WHEN 1702 THEN 'miscellaneous'
+	ELSE CASE
+		WHEN "route_type" BETWEEN 100 AND 117 THEN 'rail'
+		WHEN "route_type" BETWEEN 200 AND 209 THEN 'coach'
+		WHEN "route_type" BETWEEN 400 AND 404 THEN 'subway'
+		WHEN "route_type" BETWEEN 700 AND 716 THEN 'bus'
+		WHEN "route_type" BETWEEN 900 AND 906 THEN 'tram'
+		WHEN "route_type" BETWEEN 1300 AND 1307 THEN 'aerial_lift'
+		WHEN "route_type" BETWEEN 1500 AND 1507 THEN 'taxi'
+	END
 END;--> statement-breakpoint
-ALTER TABLE "gtfs"."departures" ADD CONSTRAINT "gtfs_departures_route_type_check" CHECK ("route_type" IN ('tram', 'subway', 'rail', 'bus', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail'));--> statement-breakpoint
-ALTER TABLE "gtfs"."routes" ADD CONSTRAINT "gtfs_routes_route_type_check" CHECK ("route_type" IN ('tram', 'subway', 'rail', 'bus', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail'));
+ALTER TABLE "gtfs"."departures" ADD CONSTRAINT "gtfs_departures_route_type_check" CHECK ("route_type" IN ('tram', 'subway', 'rail', 'bus', 'coach', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail', 'air', 'taxi', 'miscellaneous'));--> statement-breakpoint
+ALTER TABLE "gtfs"."routes" ADD CONSTRAINT "gtfs_routes_route_type_check" CHECK ("route_type" IN ('tram', 'subway', 'rail', 'bus', 'coach', 'ferry', 'cable_tram', 'aerial_lift', 'funicular', 'trolleybus', 'monorail', 'air', 'taxi', 'miscellaneous'));
