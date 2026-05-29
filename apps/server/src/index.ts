@@ -1,27 +1,23 @@
+import { serve } from "@hono/node-server";
 import { trpcServer } from "@hono/trpc-server";
 import { createContext } from "@pocket-bxl/api/context";
 import { appRouter } from "@pocket-bxl/api/routers/index";
-import { auth } from "@pocket-bxl/auth";
-import { env } from "@pocket-bxl/env/server";
 import { Hono } from "hono";
-import { cors } from "hono/cors";
-import { logger } from "hono/logger";
+
+import { corsMiddleware } from "./middleware/cors";
+import { loggerMiddleware } from "./middleware/logger";
+import { authRouter } from "./routers/auth";
 
 const app = new Hono();
 
-app.use(logger());
-app.use(
-  "/*",
-  cors({
-    origin: env.CORS_ORIGIN,
-    allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  }),
-);
+// Middlewares
+app.use(loggerMiddleware);
+app.use("/*", corsMiddleware);
 
-app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
+// Routers
+app.route("/api/auth", authRouter);
 
+// tRPC
 app.use(
   "/trpc/*",
   trpcServer({
@@ -32,12 +28,7 @@ app.use(
   }),
 );
 
-app.get("/", (c) => {
-  return c.text("OK");
-});
-
-import { serve } from "@hono/node-server";
-
+// Main
 serve(
   {
     fetch: app.fetch,

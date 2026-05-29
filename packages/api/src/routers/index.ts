@@ -1,9 +1,10 @@
-import { protectedProcedure, publicProcedure, router } from "../index";
+import { protectedProcedure, router } from "../index";
+import { healthRouter } from "./health";
+import { stopsRouter } from "./stops";
 
 export const appRouter = router({
-  healthCheck: publicProcedure.query(() => {
-    return "OK";
-  }),
+  health: healthRouter,
+  stops: stopsRouter,
   privateData: protectedProcedure.query(({ ctx }) => {
     return {
       message: "This is private",
