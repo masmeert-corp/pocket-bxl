@@ -4,6 +4,7 @@ import * as schema from "@pocket-bxl/db/schema/auth";
 import { env } from "@pocket-bxl/env/server";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { openAPI } from "better-auth/plugins";
 
 export function createAuth() {
   const db = createDb();
@@ -27,7 +28,7 @@ export function createAuth() {
         httpOnly: true,
       },
     },
-    plugins: [expo()],
+    plugins: [expo(), openAPI()],
   });
 }
 

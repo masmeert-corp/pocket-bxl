@@ -20,7 +20,9 @@
     "better-auth": "catalog:",
     "dotenv": "catalog:",
     "hono": "catalog:",
-    "zod": "catalog:"
+    "trpc-to-openapi": "^3.2.0",
+    "zod": "catalog:",
+    "zod-openapi": "^5.4.6"
   },
   "devDependencies": {
     "@pocket-bxl/config": "workspace:*",
