@@ -14,6 +14,9 @@ const app = new Hono();
 app.use(loggerMiddleware);
 app.use("/*", corsMiddleware);
 
+// Healthcheck
+app.get("/health", (c) => c.json({ status: "ok" }));
+
 // Routers
 app.route("/api/auth", authRouter);
 

@@ -18,5 +18,5 @@ watchPatterns = [
 [deploy]
 startCommand = "node apps/server/dist/index.mjs"
 restartPolicyType = "ALWAYS"
-healthcheckPath = "/"
+healthcheckPath = "/health"
 healthcheckTimeout = 300
