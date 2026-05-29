@@ -1,0 +1,21 @@
+[build]
+builder = "RAILPACK"
+buildCommand = "bun -F gtfs-worker build"
+watchPatterns = [
+  "apps/gtfs-worker/**",
+  "packages/db/**",
+  "packages/env/**",
+  "packages/config/**",
+  "package.json",
+  "bun.lock",
+  "bunfig.toml",
+  "turbo.json",
+  "tsconfig.json",
+]
+
+[deploy]
+startCommand = "node apps/gtfs-worker/dist/index.mjs"
+restartPolicyType = "NEVER"
+
+# UTC. 0 3 * * * ~= 04:00 Europe/Brussels (CET). Adjust for CEST or your preferred time.
+cronSchedule = "0 3 * * *"

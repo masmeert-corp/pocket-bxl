@@ -1,0 +1,41 @@
+{
+  "name": "gtfs-worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.mjs",
+  "imports": {
+    "#/*": "./src/*.ts"
+  },
+  "scripts": {
+    "build": "tsdown && rm -rf dist/migrations && mkdir -p dist/migrations && cp -R ../../packages/db/src/migrations/. dist/migrations",
+    "check-types": "tsc -b",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.mjs",
+    "start:prod": "node dist/index.mjs",
+    "test": "tsx --test \"src/**/*.test.ts\""
+  },
+  "dependencies": {
+    "@effect/platform": "^0.96.1",
+    "@effect/platform-node": "^0.106.0",
+    "@effect/sql": "^0.51.1",
+    "@effect/sql-drizzle": "^0.50.0",
+    "@effect/sql-pg": "^0.52.1",
+    "@pocket-bxl/db": "workspace:*",
+    "@pocket-bxl/env": "workspace:*",
+    "csv-parse": "^6.2.1",
+    "drizzle-orm": "^0.45.1",
+    "effect": "^3.21.2",
+    "pg": "^8.17.1",
+    "unzipper": "^0.12.3"
+  },
+  "devDependencies": {
+    "@pocket-bxl/config": "workspace:*",
+    "@types/node": "^22.13.14",
+    "@types/pg": "^8.16.0",
+    "@types/unzipper": "^0.10.11",
+    "tsdown": "^0.21.9",
+    "tsx": "^4.19.2",
+    "typescript": "catalog:"
+  }
+}

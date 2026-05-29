@@ -5,6 +5,18 @@
     ".": {
       "default": "./src/index.ts"
     },
+    "./migrate": {
+      "default": "./src/migrate.ts"
+    },
+    "./schema": {
+      "default": "./src/schema/index.ts"
+    },
+    "./schema/auth": {
+      "default": "./src/schema/auth.ts"
+    },
+    "./schema/gtfs": {
+      "default": "./src/schema/gtfs.ts"
+    },
     "./*": {
       "default": "./src/*.ts"
     }
@@ -24,6 +36,7 @@
   },
   "devDependencies": {
     "@pocket-bxl/config": "workspace:*",
+    "@types/node": "^22.13.14",
     "@types/pg": "^8.16.0",
     "drizzle-kit": "^0.31.8",
     "typescript": "catalog:"

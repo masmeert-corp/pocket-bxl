@@ -1,0 +1,22 @@
+[build]
+builder = "RAILPACK"
+buildCommand = "bun -F server build"
+watchPatterns = [
+  "apps/server/**",
+  "packages/api/**",
+  "packages/auth/**",
+  "packages/db/**",
+  "packages/env/**",
+  "packages/config/**",
+  "package.json",
+  "bun.lock",
+  "bunfig.toml",
+  "turbo.json",
+  "tsconfig.json",
+]
+
+[deploy]
+startCommand = "node apps/server/dist/index.mjs"
+restartPolicyType = "ALWAYS"
+healthcheckPath = "/"
+healthcheckTimeout = 300
