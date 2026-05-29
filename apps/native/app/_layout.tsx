@@ -20,6 +20,7 @@ import { queryClient } from "@/utils/trpc";
 void SplashScreen.preventAutoHideAsync();
 
 function StackLayout() {
+  SplashScreen.hideAsync();
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
