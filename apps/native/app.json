@@ -43,7 +43,10 @@
       ]
     },
     "ios": {
-      "bundleIdentifier": "com.masmeert.pocketbxl"
+      "bundleIdentifier": "com.masmeert.pocketbxl",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "extra": {
       "eas": {
