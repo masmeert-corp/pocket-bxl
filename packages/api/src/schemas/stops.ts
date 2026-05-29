@@ -4,7 +4,10 @@ import { z } from "zod";
 
 const dateTimeSchema = z.iso.datetime().meta({ pattern: undefined });
 
-export const stopSchema = createSelectSchema(stops).omit({
+export const stopSchema = createSelectSchema(stops, {
+  stop_lat: z.number().min(-90).max(90),
+  stop_lon: z.number().min(-180).max(180),
+}).omit({
   geom: true,
 });
 
