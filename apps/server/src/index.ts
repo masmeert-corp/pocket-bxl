@@ -12,6 +12,16 @@ import { authRouter } from "./routers/auth";
 
 const app = new Hono();
 
+function createOpenApiBaseUrl(request: Request) {
+  const url = new URL(request.url);
+  const forwardedProto = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
+  const forwardedHost = request.headers.get("x-forwarded-host")?.split(",")[0]?.trim();
+  const host = forwardedHost || request.headers.get("host") || url.host;
+  const protocol = forwardedProto || url.protocol.replace(":", "");
+
+  return `${protocol}://${host}/api`;
+}
+
 // Middlewares
 app.use(loggerMiddleware);
 app.use("/*", corsMiddleware);
@@ -23,8 +33,7 @@ app.get("/health", (c) => c.json({ status: "ok" }));
 app.route("/api/auth", authRouter);
 
 app.get("/api/openapi.json", (c) => {
-  const url = new URL(c.req.url);
-  return c.json(createOpenApiDocument(`${url.origin}/api`));
+  return c.json(createOpenApiDocument(createOpenApiBaseUrl(c.req.raw)));
 });
 
 app.all("/api/*", (c) => {
