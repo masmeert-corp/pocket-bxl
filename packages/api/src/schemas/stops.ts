@@ -2,7 +2,12 @@ import { departures, stops } from "@pocket-bxl/db/schema";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const stopSchema = createSelectSchema(stops).omit({
+const dateTimeSchema = z.iso.datetime().meta({ pattern: undefined });
+
+export const stopSchema = createSelectSchema(stops, {
+  stop_lat: z.number().min(-90).max(90),
+  stop_lon: z.number().min(-180).max(180),
+}).omit({
   geom: true,
 });
 
@@ -11,8 +16,8 @@ export const nearbyStopSchema = stopSchema.extend({
 });
 
 export const departureSchema = createSelectSchema(departures, {
-  arrival_at: z.iso.datetime(),
-  departure_at: z.iso.datetime(),
+  arrival_at: dateTimeSchema,
+  departure_at: dateTimeSchema,
 });
 
 export const getNearbyStopsInputSchema = z.object({
@@ -28,8 +33,8 @@ export const getStopByIdInputSchema = z.object({
 export const getStopDeparturesInputSchema = z
   .object({
     id: z.string().min(1),
-    from: z.iso.datetime().optional(),
-    to: z.iso.datetime().optional(),
+    from: dateTimeSchema.optional(),
+    to: dateTimeSchema.optional(),
     limit: z.number().int().positive().optional(),
   })
   .refine((input) => input.to || input.limit, {

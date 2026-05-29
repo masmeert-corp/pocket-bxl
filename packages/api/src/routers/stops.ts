@@ -28,6 +28,7 @@ export const stopsRouter = router({
         path: "/stops/nearby",
         operationId: "getNearbyStops",
         summary: "Find nearby stops",
+        protect: false,
         tags: ["Stops"],
       },
     })
@@ -63,6 +64,7 @@ export const stopsRouter = router({
         path: "/stops/{id}",
         operationId: "getStopById",
         summary: "Get a stop by id",
+        protect: false,
         tags: ["Stops"],
         errorResponses: {
           404: "Stop not found",
@@ -90,6 +92,7 @@ export const stopsRouter = router({
         path: "/stops/{id}/departures",
         operationId: "getStopDepartures",
         summary: "Get departures for a stop",
+        protect: false,
         tags: ["Stops"],
       },
     })

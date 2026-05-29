@@ -9,6 +9,7 @@ export const healthRouter = router({
         path: "/health",
         operationId: "healthCheck",
         summary: "Check API health",
+        protect: false,
         tags: ["Health"],
       },
     })
